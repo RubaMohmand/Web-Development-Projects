@@ -1,0 +1,304 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  font-family: "Space Grotesk", sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(124, 58, 237, 0.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      rgba(34, 211, 238, 0.12),
+      transparent 30%
+    ),
+    #0b0b12;
+
+  color: #f8fafc;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+
+  cursor: crosshair;
+
+  overflow: hidden;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+  position: fixed;
+
+  top: 22px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 10px 16px;
+
+  border: 1px solid rgba(148, 163, 184, 0.15);
+
+  background: rgba(11, 11, 18, 0.72);
+
+  backdrop-filter: blur(14px);
+
+  border-radius: 14px;
+
+  pointer-events: none;
+}
+
+.logo {
+  font-family: "DM Mono", monospace;
+
+  font-size: 12px;
+
+  letter-spacing: 0.08em;
+
+  color: #a78bfa;
+}
+
+.instruction {
+  font-size: 12px;
+
+  color: #94a3b8;
+}
+
+/* =========================
+   COUNTER
+========================= */
+
+.counter {
+  position: fixed;
+
+  bottom: 24px;
+  left: 24px;
+
+  z-index: 10;
+
+  padding: 9px 13px;
+
+  border-radius: 10px;
+
+  background: rgba(11, 11, 18, 0.78);
+
+  border: 1px solid rgba(148, 163, 184, 0.14);
+
+  color: #94a3b8;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 10px;
+
+  letter-spacing: 0.08em;
+
+  pointer-events: none;
+}
+
+#count {
+  color: #22d3ee;
+
+  font-size: 13px;
+
+  margin-right: 5px;
+}
+
+/* =========================
+   CLEAR BUTTON
+========================= */
+
+#clearBtn {
+  position: fixed;
+
+  bottom: 24px;
+  right: 24px;
+
+  z-index: 10;
+
+  border: 1px solid rgba(167, 139, 250, 0.35);
+
+  background: rgba(11, 11, 18, 0.78);
+
+  color: #c4b5fd;
+
+  padding: 9px 14px;
+
+  border-radius: 9px;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 10px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+#clearBtn:hover {
+  background: rgba(124, 58, 237, 0.18);
+
+  border-color: #8b5cf6;
+
+  color: #f8fafc;
+}
+
+/* =========================
+   STICKER
+========================= */
+
+@property --p {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.sticker {
+  position: absolute;
+
+  user-select: none;
+
+  pointer-events: auto;
+
+  will-change: transform, opacity;
+
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 10px 18px rgba(0, 0, 0, 0.08));
+
+  --fold: calc(var(--minp) + var(--span) * var(--p));
+
+  --half-plane: polygon(
+    calc((var(--fold) * var(--u0) + var(--big) * var(--w0)) * 1px)
+      calc((var(--fold) * var(--u1) + var(--big) * var(--w1)) * 1px),
+    calc((var(--fold) * var(--u0) - var(--big) * var(--w0)) * 1px)
+      calc((var(--fold) * var(--u1) - var(--big) * var(--w1)) * 1px),
+    calc(
+        (
+            var(--fold) * var(--u0) - var(--big) * var(--w0) - var(--big) *
+              var(--u0)
+          ) *
+          1px
+      )
+      calc(
+        (
+            var(--fold) * var(--u1) - var(--big) * var(--w1) - var(--big) *
+              var(--u1)
+          ) *
+          1px
+      ),
+    calc(
+        (
+            var(--fold) * var(--u0) + var(--big) * var(--w0) - var(--big) *
+              var(--u0)
+          ) *
+          1px
+      )
+      calc(
+        (
+            var(--fold) * var(--u1) + var(--big) * var(--w1) - var(--big) *
+              var(--u1)
+          ) *
+          1px
+      )
+  );
+}
+
+.sticker__layer {
+  position: absolute;
+
+  inset: 0;
+}
+
+.sticker__img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+.sticker__flat {
+  clip-path: var(--half-plane);
+}
+
+.sticker__flap-clip {
+  clip-path: var(--half-plane);
+}
+
+.sticker__flap-inner {
+  transform-origin: 0 0;
+
+  transform: matrix(
+    var(--a),
+    var(--b),
+    var(--b),
+    var(--d),
+    calc(2 * var(--fold) * var(--u0)),
+    calc(2 * var(--fold) * var(--u1))
+  );
+}
+
+.sticker__flap-fill {
+  -webkit-mask-image: var(--src);
+
+  mask-image: var(--src);
+
+  -webkit-mask-size: contain;
+
+  mask-size: contain;
+
+  -webkit-mask-repeat: no-repeat;
+
+  mask-repeat: no-repeat;
+
+  -webkit-mask-position: center;
+
+  mask-position: center;
+
+  mask-mode: alpha;
+
+  background-image: linear-gradient(
+    calc(var(--ca) * 1deg),
+    #171725 calc(var(--p) * 100%),
+    #303044 calc((var(--p) + (1 - var(--p)) * 0.1) * 100%),
+    #45445e calc((var(--p) + (1 - var(--p)) * 0.45) * 100%),
+    #272738 calc((var(--p) + (1 - var(--p)) * 0.82) * 100%),
+    #14141f 100%
+  );
+}
+
+.sticker__flap-shadow {
+  filter: drop-shadow(
+    calc(var(--u0) * var(--s) * -0.05 * (1 - var(--p)) * 1px)
+      calc((var(--u1) * -0.05 + 0.04) * var(--s) * (1 - var(--p)) * 1px)
+      calc(var(--s) * 0.025 * 1px) rgba(0, 0, 0, calc(0.35 * (1 - var(--p))))
+  );
+}

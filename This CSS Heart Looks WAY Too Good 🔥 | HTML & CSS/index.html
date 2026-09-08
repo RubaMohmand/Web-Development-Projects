@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ruba.codes — Creative Digital Card</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      font-family: Inter, Arial, Helvetica, sans-serif;
+
+      background:
+        radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.28), transparent 30%),
+        radial-gradient(circle at 80% 25%, rgba(34, 211, 238, 0.14), transparent 28%),
+        radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.18), transparent 30%),
+        #0B0B12;
+
+      perspective: 1200px;
+    }
+
+    /* Ambient background */
+    .ambient {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .ambient.one {
+      width: 260px;
+      height: 260px;
+      background: #7C3AED;
+      top: -80px;
+      left: -70px;
+      opacity: 0.25;
+    }
+
+    .ambient.two {
+      width: 320px;
+      height: 320px;
+      background: #22D3EE;
+      bottom: -130px;
+      right: -100px;
+      opacity: 0.16;
+    }
+
+    .ambient.three {
+      width: 180px;
+      height: 180px;
+      background: #8B5CF6;
+      top: 25%;
+      right: 10%;
+      opacity: 0.14;
+    }
+
+    .card {
+      position: relative;
+      width: 390px;
+      min-height: 540px;
+      padding: 28px;
+      border-radius: 32px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.10),
+          rgba(255,255,255,0.025)
+        );
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+
+      transform-style: preserve-3d;
+      transition: transform 0.45s ease, box-shadow 0.45s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: rotateX(5deg) rotateY(-7deg) translateY(-8px);
+
+      box-shadow:
+        0 55px 120px rgba(0,0,0,0.65),
+        0 0 70px rgba(124,58,237,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+
+    /* Neon purple + cyan border */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+
+      background:
+        linear-gradient(
+          140deg,
+          rgba(34,211,238,0.85),
+          rgba(255,255,255,0.06) 35%,
+          rgba(255,255,255,0.02) 60%,
+          rgba(124,58,237,0.90)
+        );
+
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+
+      pointer-events: none;
+    }
+
+    /* Purple inner glow */
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      right: -60px;
+      top: 150px;
+
+      background: rgba(124,58,237,0.22);
+      filter: blur(60px);
+
+      pointer-events: none;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      position: relative;
+      z-index: 2;
+
+      transform: translateZ(35px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 8px 12px;
+      border-radius: 999px;
+
+      font-size: 11px;
+      letter-spacing: 1.6px;
+
+      color: #A78BFA;
+
+      background: rgba(124,58,237,0.08);
+
+      border: 1px solid rgba(124,58,237,0.25);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+
+      background: #22D3EE;
+
+      box-shadow: 0 0 10px #22D3EE;
+    }
+
+    .menu {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      color: rgba(255,255,255,0.70);
+
+      border: 1px solid rgba(255,255,255,0.10);
+
+      background: rgba(255,255,255,0.035);
+
+      font-size: 18px;
+    }
+
+    .heart-section {
+      height: 240px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+      z-index: 2;
+
+      transform: translateZ(65px);
+    }
+
+    .heart-glow {
+      position: absolute;
+
+      width: 160px;
+      height: 160px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(124,58,237,0.30),
+          rgba(34,211,238,0.12) 45%,
+          transparent 70%
+        );
+
+      filter: blur(18px);
+    }
+
+    /* ruba.codes pixel symbol */
+    .pixel-heart {
+      position: relative;
+      width: 126px;
+      height: 108px;
+
+      animation: floatHeart 3.4s ease-in-out infinite;
+
+      filter:
+        drop-shadow(0 0 8px rgba(124,58,237,0.90))
+        drop-shadow(0 0 20px rgba(34,211,238,0.30));
+    }
+
+    .heart-pixel {
+      position: absolute;
+
+      width: 18px;
+      height: 18px;
+
+      background: #7C3AED;
+
+      box-shadow:
+        18px 0 #7C3AED,
+        36px 0 #8B5CF6,
+        72px 0 #8B5CF6,
+        90px 0 #7C3AED,
+
+        0 18px #7C3AED,
+        18px 18px #8B5CF6,
+        36px 18px #A78BFA,
+        54px 18px #22D3EE,
+        72px 18px #8B5CF6,
+        90px 18px #7C3AED,
+        108px 18px #22D3EE,
+
+        0 36px #8B5CF6,
+        18px 36px #A78BFA,
+        36px 36px #7C3AED,
+        54px 36px #22D3EE,
+        72px 36px #8B5CF6,
+        90px 36px #22D3EE,
+        108px 36px #7C3AED,
+
+        18px 54px #8B5CF6,
+        36px 54px #7C3AED,
+        54px 54px #A78BFA,
+        72px 54px #22D3EE,
+        90px 54px #8B5CF6,
+
+        36px 72px #7C3AED,
+        54px 72px #8B5CF6,
+        72px 72px #22D3EE,
+
+        54px 90px #A78BFA;
+    }
+
+    .heart-pixel::after {
+      content: "";
+
+      position: absolute;
+      width: 18px;
+      height: 18px;
+
+      left: 18px;
+      top: 18px;
+
+      background: rgba(248,250,252,0.90);
+
+      box-shadow:
+        18px 0 rgba(248,250,252,0.20);
+    }
+
+    @keyframes floatHeart {
+      0%, 100% {
+        transform: translateX(-54px) translateY(5px) rotate(-2deg);
+      }
+
+      50% {
+        transform: translateX(-54px) translateY(-16px) rotate(2deg);
+      }
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+
+      transform: translateZ(45px);
+    }
+
+    .eyebrow {
+      color: #94A3B8;
+
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 42px;
+      line-height: 0.98;
+
+      letter-spacing: -2.2px;
+
+      color: #F8FAFC;
+
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      background:
+        linear-gradient(
+          90deg,
+          #7C3AED,
+          #A78BFA,
+          #22D3EE
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .description {
+      max-width: 290px;
+
+      font-size: 14px;
+      line-height: 1.7;
+
+      color: #94A3B8;
+
+      margin-bottom: 28px;
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      position: relative;
+      z-index: 2;
+
+      transform: translateZ(55px);
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      letter-spacing: 1.7px;
+
+      color: #64748B;
+    }
+
+    .meta-value {
+      font-size: 13px;
+
+      color: #F8FAFC;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      padding: 12px 18px;
+
+      border-radius: 14px;
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      color: #F8FAFC;
+
+      background:
+        linear-gradient(
+          135deg,
+          #7C3AED,
+          #8B5CF6
+        );
+
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 10px 30px rgba(124,58,237,0.25);
+
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 15px 35px rgba(124,58,237,0.40);
+    }
+
+    .line {
+      position: absolute;
+
+      width: 90px;
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(124,58,237,0.45),
+          transparent
+        );
+
+      right: 35px;
+      bottom: 105px;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        width: 330px;
+        min-height: 500px;
+        padding: 24px;
+      }
+
+      .heart-section {
+        height: 215px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient one"></div>
+  <div class="ambient two"></div>
+  <div class="ambient three"></div>
+
+  <div class="card">
+
+    <div class="topbar">
+
+      <div class="badge">
+        <span class="badge-dot"></span>
+        RUBA.CODES
+      </div>
+
+      <div class="menu">
+        ✦
+      </div>
+
+    </div>
+
+    <div class="heart-section">
+
+      <div class="heart-glow"></div>
+
+      <div class="pixel-heart">
+        <div class="heart-pixel"></div>
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <div class="eyebrow">
+        Creative Code • 001
+      </div>
+
+      <h1>
+        Build.
+        <span>Create.</span>
+      </h1>
+
+      <p class="description">
+        Turning ideas into futuristic digital experiences
+        with clean code, creative interfaces and a touch
+        of neon magic.
+      </p>
+
+    </div>
+
+    <div class="bottom">
+
+      <div class="meta">
+        <span class="meta-label">CURRENT MODE</span>
+        <span class="meta-value">Creating & coding</span>
+      </div>
+
+      <button class="button">
+        VIEW WORK
+        <span>↗</span>
+      </button>
+
+    </div>
+
+    <div class="line"></div>
+
+  </div>
+
+</body>
+</html>
