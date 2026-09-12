@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
+    <title>The Living Mannequin — Monochrome</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="cursor"></div>
+    <div id="cursor-trail"></div>
+
+    <div id="theatre-stage">
+      <div class="fog"></div>
+      <div id="spotlight"></div>
+      <canvas id="particle-canvas"></canvas>
+      <div id="streaks"></div>
+      <div id="scanlines"></div>
+      <div id="shadow"></div>
+
+      <div id="mood-label">— idle —</div>
+
+      <svg id="controller-hand" viewBox="0 0 500 300">
+        <path
+          d="M150,250 Q160,150 200,100 Q210,80 230,85 Q250,90 240,120 L240,250 M250,250 L250,50 Q260,30 280,35 Q300,40 290,70 L290,250 M300,250 L300,30 Q310,10 330,15 Q350,20 340,50 L340,250 M350,250 L350,60 Q360,40 380,45 Q400,50 390,80 L390,250 M400,250 Q450,200 450,150 Q450,130 430,135 Q410,140 410,170 L410,250"
+          stroke="rgba(255,255,255,0.08)"
+          stroke-width="2"
+          fill="none"
+        />
+        <circle
+          id="tip-1"
+          cx="215"
+          cy="85"
+          r="4"
+          fill="var(--accent)"
+          opacity="0.9"
+        />
+        <circle
+          id="tip-2"
+          cx="275"
+          cy="35"
+          r="4"
+          fill="var(--accent)"
+          opacity="0.9"
+        />
+        <circle
+          id="tip-3"
+          cx="325"
+          cy="15"
+          r="4"
+          fill="var(--accent)"
+          opacity="0.9"
+        />
+        <circle
+          id="tip-4"
+          cx="375"
+          cy="45"
+          r="4"
+          fill="var(--accent)"
+          opacity="0.9"
+        />
+        <circle
+          id="tip-5"
+          cx="430"
+          cy="135"
+          r="4"
+          fill="var(--accent)"
+          opacity="0.9"
+        />
+        <!-- Glow rings on tips -->
+        <circle
+          cx="215"
+          cy="85"
+          r="8"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="1"
+          opacity="0.2"
+        />
+        <circle
+          cx="325"
+          cy="15"
+          r="8"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="1"
+          opacity="0.2"
+        />
+        <circle
+          cx="430"
+          cy="135"
+          r="8"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="1"
+          opacity="0.2"
+        />
+      </svg>
+
+      <svg id="string-svg">
+        <path class="string-path" id="str-head"></path>
+        <path class="string-path" id="str-hand-l"></path>
+        <path class="string-path" id="str-hand-r"></path>
+        <path class="string-path" id="str-leg-l"></path>
+        <path class="string-path" id="str-leg-r"></path>
+      </svg>
+
+      <div class="puppet-wrapper" id="puppet-master">
+        <div class="part head" id="p-head"></div>
+        <div class="part neck"></div>
+        <div class="part chest" id="p-chest"></div>
+        <div class="part abs"></div>
+        <div class="part pelvis" id="p-pelvis"></div>
+
+        <div class="part upper-limb shoulder-l" id="p-arm-l-u">
+          <div class="part lower-limb" id="p-arm-l-l">
+            <div class="part hand-foot" id="p-hand-l"></div>
+          </div>
+        </div>
+        <div class="part upper-limb shoulder-r" id="p-arm-r-u">
+          <div class="part lower-limb" id="p-arm-r-l">
+            <div class="part hand-foot" id="p-hand-r"></div>
+          </div>
+        </div>
+        <div class="part upper-limb hip-l" id="p-leg-l-u">
+          <div class="part lower-limb" id="p-leg-l-l">
+            <div class="part hand-foot" id="p-foot-l"></div>
+          </div>
+        </div>
+        <div class="part upper-limb hip-r" id="p-leg-r-u">
+          <div class="part lower-limb" id="p-leg-r-l">
+            <div class="part hand-foot" id="p-foot-r"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="quote-display"></div>
+      <div id="visualizer"></div>
+
+      <div class="input-ritual">
+        <div class="button-grid" id="button-container"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
