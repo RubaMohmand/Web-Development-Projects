@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Volume Controller</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="widget-panel">
+      <div class="widget-glare"></div>
+
+      <div class="widget-header">
+        <div class="title-group">
+          <h3>Volume Controller</h3>
+          <p>Control your audio volume</p>
+        </div>
+
+        <div class="value-readout" id="valueOutput">50%</div>
+      </div>
+
+      <div class="slider-module">
+        <div class="icon-node" id="iconMin">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </div>
+
+        <div class="interactive-track-wrapper" id="trackCore">
+          <div class="fluid-tooltip" id="bubbleTooltip">50%</div>
+
+          <div class="glass-tube">
+            <div class="liquid-fluid-stream" id="fluidFill"></div>
+          </div>
+
+          <div class="glass-thumb" id="thumbNode"></div>
+        </div>
+
+        <div class="icon-node" id="iconMax">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
