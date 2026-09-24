@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evidence Board</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Anton&family=Courier+Prime:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <div class="board" id="board">
+      <div class="board-grain" aria-hidden="true"></div>
+      <div class="board-flicker" aria-hidden="true"></div>
+      <div class="classified" id="classified" aria-hidden="true">
+        CLASSIFIED
+      </div>
+
+      <header class="case-header">
+        <div class="stamp">CASE FILE #4815</div>
+        <h1 class="case-title">
+          <span class="r r1">F</span><span class="r r2">R</span
+          ><span class="r r3">O</span><span class="r r4">N</span
+          ><span class="r r5">T</span><span class="r r6">E</span
+          ><span class="r r7">N</span><span class="r r8">D</span>
+          <span class="r-sub">EVIDENCE BOARD</span>
+        </h1>
+        <div class="controls">
+          <button class="ctrl is-active" data-sort="newest">
+            SORT: NEWEST
+          </button>
+          <button class="ctrl" data-sort="oldest">OLDEST</button>
+          <button class="ctrl" data-sort="source">SOURCE</button>
+          <button class="ctrl" data-filter="unread">UNFILED ONLY</button>
+          <button class="ctrl" data-action="string">&#9672; TRACE LINKS</button>
+          <button class="ctrl" data-action="reset">&#8634; RE-PIN</button>
+        </div>
+        <p class="hint">
+          drag the exhibits to rearrange &middot; tap a headline for case notes
+          &middot; trace links connects related cases
+        </p>
+      </header>
+
+      <svg class="strings" id="strings" aria-hidden="true"></svg>
+      <main class="pinboard" id="pinboard" aria-live="polite"></main>
+
+      <footer class="case-footer" id="footer">
+        12 EXHIBITS LOGGED &middot; DO NOT REMOVE FROM ROOM
+      </footer>
+    </div>
+
+    <div class="notes" id="notes" aria-hidden="true">
+      <div
+        class="notes-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Case notes"
+      >
+        <button class="notes-close" data-close aria-label="Close">
+          &times;
+        </button>
+        <div id="note-body"></div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>

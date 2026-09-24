@@ -1,0 +1,607 @@
+* {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+}
+
+body {
+ background: #1a1410;
+ font-family: "Courier Prime", monospace;
+ padding: clamp(0.5rem, 2vw, 1.5rem);
+ min-height: 100vh;
+}
+
+.board {
+ position: relative;
+ max-width: 1100px;
+ margin: 0 auto;
+ background: #b58a4e;
+ background-image: radial-gradient(
+   circle at 20% 30%,
+   rgba(0, 0, 0, 0.06) 0 2px,
+   transparent 3px
+  ),
+  radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.05) 0 2px, transparent 3px),
+  radial-gradient(circle at 45% 85%, rgba(0, 0, 0, 0.06) 0 2px, transparent 3px);
+ background-size: 24px 24px, 31px 31px, 19px 19px;
+ border: 14px solid #5b3a1a;
+ border-image: linear-gradient(45deg, #6b4423, #3d2710, #6b4423) 1;
+ box-shadow: inset 0 0 120px rgba(60, 30, 10, 0.5),
+  0 20px 60px rgba(0, 0, 0, 0.6);
+ padding: clamp(1rem, 3vw, 2.5rem);
+ overflow: hidden;
+}
+.board-grain {
+ position: absolute;
+ inset: 0;
+ pointer-events: none;
+ opacity: 0.5;
+ z-index: 1;
+ background: repeating-linear-gradient(
+  115deg,
+  transparent 0 3px,
+  rgba(0, 0, 0, 0.025) 3px 4px
+ );
+}
+
+/* faint flicker over the board */
+.board-flicker {
+ position: absolute;
+ inset: 0;
+ pointer-events: none;
+ z-index: 9;
+ background: rgba(20, 10, 5, 0.05);
+ mix-blend-mode: multiply;
+ animation: flick 6s infinite steps(1);
+}
+@keyframes flick {
+ 0%,
+ 93%,
+ 100% {
+  opacity: 0;
+ }
+ 94% {
+  opacity: 0.5;
+ }
+ 95% {
+  opacity: 0.05;
+ }
+ 96% {
+  opacity: 0.35;
+ }
+}
+
+/* CLASSIFIED stampoccasionally */
+.classified {
+ position: absolute;
+ top: 38%;
+ left: 50%;
+ transform: translate(-50%, -50%) rotate(-18deg);
+ font-family: "Special Elite";
+ font-size: clamp(3rem, 12vw, 7rem);
+ color: rgba(140, 16, 16, 0);
+ border: 0.12em solid rgba(140, 16, 16, 0);
+ padding: 0.05em 0.25em;
+ letter-spacing: 0.1em;
+ pointer-events: none;
+ z-index: 8;
+ transition: none;
+}
+.classified.show {
+ animation: bleed 2.4s ease forwards;
+}
+@keyframes bleed {
+ 0% {
+  color: rgba(140, 16, 16, 0);
+  border-color: rgba(140, 16, 16, 0);
+ }
+ 20% {
+  color: rgba(140, 16, 16, 0.42);
+  border-color: rgba(140, 16, 16, 0.42);
+ }
+ 80% {
+  color: rgba(140, 16, 16, 0.42);
+  border-color: rgba(140, 16, 16, 0.42);
+ }
+ 100% {
+  color: rgba(140, 16, 16, 0);
+  border-color: rgba(140, 16, 16, 0);
+ }
+}
+
+.case-header {
+ position: relative;
+ z-index: 6;
+ margin-bottom: 1.5rem;
+}
+.stamp {
+ display: inline-block;
+ font-family: "Special Elite";
+ color: #a01818;
+ border: 3px solid #a01818;
+ padding: 0.2em 0.7em;
+ font-size: clamp(0.7rem, 1.6vw, 0.95rem);
+ letter-spacing: 0.15em;
+ transform: rotate(-4deg);
+ opacity: 0.85;
+ margin-bottom: 0.6rem;
+}
+.case-title {
+ font-family: "Anton";
+ line-height: 0.9;
+ color: #1a1410;
+}
+.case-title .r {
+ display: inline-block;
+ background: #f4ecd8;
+ color: #111;
+ padding: 0 0.08em;
+ font-size: clamp(2rem, 7vw, 4rem);
+ box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+.r1 {
+ transform: rotate(-5deg);
+}
+.r2 {
+ transform: rotate(3deg);
+ background: #111;
+ color: #f4ecd8;
+}
+.r3 {
+ transform: rotate(-2deg);
+}
+.r4 {
+ transform: rotate(4deg);
+}
+.r5 {
+ transform: rotate(-3deg);
+ background: #a01818;
+ color: #fff;
+}
+.r6 {
+ transform: rotate(2deg);
+}
+.r7 {
+ transform: rotate(-4deg);
+}
+.r8 {
+ transform: rotate(3deg);
+ background: #111;
+ color: #f4ecd8;
+}
+.r-sub {
+ display: block;
+ font-family: "Special Elite";
+ font-size: clamp(0.9rem, 2.4vw, 1.3rem);
+ color: #3d2710;
+ letter-spacing: 0.3em;
+ margin-top: 0.4rem;
+}
+
+.controls {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.5rem;
+ margin-top: 1.1rem;
+}
+.ctrl {
+ font-family: "Special Elite";
+ cursor: pointer;
+ background: #f4ecd8;
+ color: #1a1410;
+ border: 1px solid #1a1410;
+ padding: 0.35em 0.8em;
+ font-size: clamp(0.65rem, 1.4vw, 0.8rem);
+ letter-spacing: 0.08em;
+ box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+ transition: transform 0.1s;
+}
+.ctrl:hover {
+ transform: translate(-1px, -1px);
+}
+.ctrl.is-active {
+ background: #a01818;
+ color: #fff;
+}
+.hint {
+ font-family: "Special Elite";
+ color: #3d2710;
+ font-size: clamp(0.65rem, 1.4vw, 0.8rem);
+ margin-top: 0.7rem;
+ opacity: 0.7;
+ letter-spacing: 0.05em;
+}
+
+/* string layer */
+.strings {
+ position: absolute;
+ inset: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 4;
+ pointer-events: none;
+}
+.strings line {
+ stroke: #9e1b1b;
+ stroke-width: 2;
+ opacity: 0;
+}
+.strings.show line {
+ opacity: 0.85;
+}
+.strings.animate line {
+ stroke-dasharray: 1400;
+ stroke-dashoffset: 1400;
+ animation: draw 0.8s ease forwards;
+}
+@keyframes draw {
+ to {
+  stroke-dashoffset: 0;
+ }
+}
+
+/* pinboard becomes positione canvas once dragging go */
+.pinboard {
+ position: relative;
+ z-index: 5;
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+ gap: 1.4rem 1.2rem;
+ align-items: start;
+ min-height: 300px;
+}
+.pinboard.free {
+ display: block;
+} /* free-drag mode: absolute children */
+
+.exhibit {
+ position: relative;
+ background: #f8f4e9;
+ padding: 1rem 1rem 1.1rem;
+ box-shadow: 3px 5px 14px rgba(0, 0, 0, 0.45);
+ font-family: "Courier Prime";
+ transform: rotate(var(--rot, 0deg));
+ transition: transform 0.18s, box-shadow 0.18s;
+ animation: drop 0.35s both;
+ touch-action: none; 
+ cursor: grab;
+}
+.pinboard.free .exhibit {
+ position: absolute;
+ width: 240px;
+ margin: 0;
+ left: var(--x, 0px);
+ top: var(--y, 0px);
+}
+.exhibit:hover {
+ box-shadow: 6px 10px 26px rgba(0, 0, 0, 0.55);
+ z-index: 7;
+}
+.exhibit.dragging {
+ cursor: grabbing;
+ transform: rotate(0deg) scale(1.05);
+ box-shadow: 10px 18px 36px rgba(0, 0, 0, 0.6);
+ z-index: 30;
+ transition: none;
+}
+@keyframes drop {
+ from {
+  opacity: 0;
+  transform: rotate(var(--rot, 0deg)) translateY(-12px);
+ }
+ to {
+  opacity: 1;
+ }
+}
+
+.exhibit::before {
+ /* push-pin */
+ content: "";
+ position: absolute;
+ top: -9px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 18px;
+ height: 18px;
+ border-radius: 50%;
+ background: radial-gradient(circle at 35% 30%, #ff6b6b, #b01515 70%);
+ box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5),
+  inset -1px -2px 3px rgba(0, 0, 0, 0.4);
+ z-index: 8;
+}
+/* subtle horror: one card's pin slowly drifts as if loosening */
+.exhibit.haunted::before {
+ animation: drift 9s ease-in-out infinite;
+}
+@keyframes drift {
+ 0%,
+ 100% {
+  transform: translateX(-50%) translate(0, 0);
+ }
+ 50% {
+  transform: translateX(-50%) translate(7px, 3px) rotate(20deg);
+ }
+}
+.exhibit::after {
+ /* tape */
+ content: "";
+ position: absolute;
+ top: -6px;
+ right: 14px;
+ width: 46px;
+ height: 18px;
+ background: rgba(220, 210, 170, 0.55);
+ transform: rotate(8deg);
+ box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.ex-meta {
+ font-family: "Special Elite";
+ font-size: 0.68rem;
+ color: #7a1010;
+ letter-spacing: 0.05em;
+ margin-bottom: 0.5rem;
+ border-bottom: 1px dashed #b9a;
+ padding-bottom: 0.35rem;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.2rem 0.6rem;
+}
+.feed-source {
+ color: #7a1010;
+ text-decoration: none;
+ font-weight: 700;
+}
+.feed-source:hover {
+ text-decoration: underline;
+}
+.pub-date {
+ color: #555;
+}
+
+.ex-title {
+ font-family: "Anton";
+ line-height: 1;
+ margin-bottom: 0.55rem;
+ font-weight: 400;
+ cursor: pointer;
+}
+.ex-title:hover .cut {
+ outline: 1px solid rgba(160, 16, 16, 0.5);
+}
+.ex-title .cut {
+ display: inline-block;
+ font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+ padding: 0 0.07em;
+ margin: 1px;
+ color: #111;
+ background: #e8e2d0;
+}
+.ex-title .cut:nth-child(3n) {
+ background: #111;
+ color: #f4ecd8;
+ transform: rotate(-3deg);
+}
+.ex-title .cut:nth-child(4n) {
+ background: #a01818;
+ color: #fff;
+ transform: rotate(2deg);
+}
+.ex-title .cut:nth-child(5n) {
+ transform: rotate(-2deg);
+}
+
+.ex-body {
+ font-size: 0.86rem;
+ line-height: 1.55;
+ color: #222;
+ max-width: 42ch;
+}
+.redact {
+ background: #111;
+ color: #111;
+ border-radius: 1px;
+ padding: 0 0.15em;
+transition: color 0.15s ease, background-color 0.15s ease;
+cursor: help;
+}
+.exhibit:hover .redact {
+ color: #222;
+ background: #cfc8b4;
+}
+
+.ex-actions {
+ margin-top: 0.7rem;
+ display: flex;
+ gap: 0.4rem;
+}
+.ex-actions button {
+ font-family: "Special Elite";
+ font-size: 0.62rem;
+ cursor: pointer;
+ background: transparent;
+ border: 1px solid #555;
+ color: #555;
+ padding: 0.15em 0.5em;
+ letter-spacing: 0.05em;
+}
+.ex-actions button:hover {
+ border-color: #a01818;
+ color: #a01818;
+}
+
+.exhibit.is-read {
+ filter: sepia(0.4) contrast(0.95);
+ opacity: 0.7;
+}
+.exhibit.is-read .ex-title::after {
+ content: "FILED";
+ position: absolute;
+ top: 40%;
+ left: 50%;
+ transform: translate(-50%, -50%) rotate(-12deg);
+ font-family: "Special Elite";
+ color: #a01818;
+ border: 3px solid #a01818;
+ padding: 0.1em 0.4em;
+ font-size: 1rem;
+ opacity: 0.7;
+ pointer-events: none;
+}
+.exhibit.is-dismissed {
+ display: none;
+}
+
+.case-footer {
+ position: relative;
+ z-index: 6;
+ margin-top: 1.8rem;
+ text-align: center;
+ font-family: "Special Elite";
+ color: #3d2710;
+ letter-spacing: 0.2em;
+ font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+ .exhibit {
+  animation: none;
+ }
+ .board-flicker,
+ .exhibit.haunted::before {
+  animation: none;
+ }
+ .strings.animate line {
+  animation: none;
+  stroke-dashoffset: 0;
+ }
+}
+
+/* ---- case notes panel ---- */
+.notes {
+ position: fixed;
+ inset: 0;
+ z-index: 100;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background: rgba(10, 6, 3, 0.72);
+ backdrop-filter: blur(2px);
+ opacity: 0;
+ visibility: hidden;
+ transition: opacity 0.2s;
+ padding: 1.2rem;
+}
+.notes.open {
+ opacity: 1;
+ visibility: visible;
+}
+.notes-card {
+ position: relative;
+ width: min(540px, 100%);
+ max-height: 88vh;
+ overflow: auto;
+ background: #f8f4e9;
+ color: #1a1410;
+ font-family: "Courier Prime", monospace;
+ padding: 1.6rem 1.6rem 1.8rem;
+ border: 1px solid #1a1410;
+ box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 0 0 6px #f8f4e9,
+  inset 0 0 0 7px #b8af96;
+ transform: translateY(14px) rotate(-0.6deg);
+ transition: transform 0.2s;
+ background-image: repeating-linear-gradient(
+  transparent 0 27px,
+  rgba(122, 16, 16, 0.07) 27px 28px
+ );
+}
+.notes.open .notes-card {
+ transform: translateY(0) rotate(-0.6deg);
+}
+.notes-card::before {
+ /* tape on the dossier */
+ content: "";
+ position: absolute;
+ top: -12px;
+ left: 50%;
+ transform: translateX(-50%) rotate(-2deg);
+ width: 120px;
+ height: 26px;
+ background: rgba(220, 210, 170, 0.7);
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+.notes-close {
+ position: absolute;
+ top: 0.5rem;
+ right: 0.6rem;
+ font-family: "Anton";
+ font-size: 1.4rem;
+ line-height: 1;
+ cursor: pointer;
+ background: none;
+ border: none;
+ color: #7a1010;
+}
+.notes-close:hover {
+ color: #a01818;
+ transform: scale(1.15);
+}
+
+.note-stamp {
+ display: inline-block;
+ font-family: "Special Elite";
+ font-size: 0.7rem;
+ letter-spacing: 0.12em;
+ color: #a01818;
+ border: 2px solid #a01818;
+ padding: 0.2em 0.6em;
+ transform: rotate(-2deg);
+ margin-bottom: 0.9rem;
+}
+.note-title {
+ font-family: "Anton";
+ font-weight: 400;
+ font-size: clamp(1.5rem, 5vw, 2.2rem);
+ line-height: 1.05;
+ margin-bottom: 0.9rem;
+}
+.note-line {
+ font-size: 0.85rem;
+ line-height: 1.7;
+}
+.note-line b {
+ font-family: "Special Elite";
+ color: #7a1010;
+ letter-spacing: 0.04em;
+}
+.note-line a {
+ color: #7a1010;
+}
+.note-text {
+ font-size: 0.95rem;
+ line-height: 1.65;
+ margin: 0.9rem 0;
+ color: #222;
+}
+.note-text::first-letter {
+ font-family: "Anton";
+ font-size: 2.4em;
+ line-height: 0.8;
+ float: left;
+ color: #a01818;
+ margin: 4px 6px 0 0;
+}
+.note-open {
+ display: inline-block;
+ margin-top: 0.6rem;
+ font-family: "Special Elite";
+ letter-spacing: 0.06em;
+ color: #1a1410;
+ background: #a01818;
+ padding: 0.4em 0.9em;
+ text-decoration: none;
+ box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.note-open:hover {
+ transform: translate(-1px, -1px);
+}

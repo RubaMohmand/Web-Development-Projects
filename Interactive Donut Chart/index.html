@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="An interactive cinematic donut chart for exploring data distribution."
+    />
+
+    <title>DONUT CHART — Data Visualization</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@75..125,500..900&family=Fragment+Mono:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- LOADING -->
+    <div class="preheater" id="preheater">
+      <div class="preheater__dial">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <span id="load-value">000</span>
+      </div>
+
+      <div class="preheater__copy">
+        <b>LOADING</b>
+        <span>CALCULATING DATA</span>
+      </div>
+    </div>
+
+    <!-- 3D DONUT -->
+    <canvas
+      id="world"
+      tabindex="0"
+      aria-label="Interactive three-dimensional donut chart"
+    ></canvas>
+
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <!-- FALLBACK -->
+    <div class="fallback" id="fallback">
+      <p>VISUALIZATION OFFLINE</p>
+
+      <strong> The data is still available below. </strong>
+
+      <span>
+        Enable WebGL and reload to experience the interactive donut chart.
+      </span>
+    </div>
+
+    <!-- HEADER -->
+    <header class="masthead">
+      <a
+        class="brand"
+        href="#overview"
+        aria-label="Donut Chart — return to beginning"
+      >
+        <svg viewBox="0 0 42 42" aria-hidden="true">
+          <circle cx="21" cy="21" r="18"></circle>
+          <path d="M21 8a13 13 0 1 1-9.2 3.8"></path>
+          <circle cx="21" cy="21" r="3"></circle>
+        </svg>
+
+        <span>DONUT CHART</span>
+      </a>
+
+      <div class="core-readout">
+        <span>TOTAL</span>
+        <i></i>
+        <output id="temperature">100%</output>
+      </div>
+
+      <button
+        class="sound-toggle"
+        id="sound-toggle"
+        type="button"
+        aria-pressed="false"
+      >
+        <svg viewBox="0 0 24 24">
+          <path d="M4 14h3l4 4V6L7 10H4z"></path>
+
+          <path
+            class="sound-wave"
+            d="M15 9c1.7 1.7 1.7 4.3 0 6m3-9c3.3 3.3 3.3 8.7 0 12"
+          ></path>
+        </svg>
+
+        <span>SOUND OFF</span>
+      </button>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="chapter-rail" aria-label="Experience chapters">
+      <button class="is-active" type="button" data-chapter="0">
+        <b>01</b>
+        <span>OVERVIEW</span>
+      </button>
+
+      <button type="button" data-chapter="1">
+        <b>02</b>
+        <span>DISTRIBUTION</span>
+      </button>
+
+      <button type="button" data-chapter="2">
+        <b>03</b>
+        <span>INSIGHTS</span>
+      </button>
+    </nav>
+
+    <main>
+      <!-- ========================= -->
+      <!-- CHAPTER 1 -->
+      <!-- ========================= -->
+
+      <section class="chapter chapter--raw" id="overview" data-scene="0">
+        <div class="hero-copy">
+          <h1>
+            <span>DATA</span>
+            <em>DIVIDED</em>
+          </h1>
+
+          <p>
+            Turn complex numbers into a simple visual story. Explore how every
+            category contributes to the whole.
+          </p>
+
+          <button class="enter-button" id="enter-button" type="button">
+            <span>EXPLORE DATA</span>
+
+            <svg viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="22"></circle>
+              <path d="M24 14v19m-7-7 7 7 7-7"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="raw-note">
+          <b>DATA / 100%</b>
+
+          <span> Move to interact with the chart </span>
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- CHAPTER 2 -->
+      <!-- ========================= -->
+
+      <section class="chapter chapter--bake" id="distribution" data-scene="1">
+        <div class="bake-copy">
+          <h2>
+            DATA BECOMES
+            <br />
+            <em>FORM.</em>
+          </h2>
+
+          <p>
+            Each segment represents a proportion of the total. Together, the
+            slices create one complete picture.
+          </p>
+
+          <div
+            class="formula"
+            aria-label="Data times proportion equals visualization"
+          >
+            <span>DATA</span>
+
+            <i>×</i>
+
+            <span>PROPORTION</span>
+
+            <i>×</i>
+
+            <span>CONTEXT</span>
+
+            <b>= VISUAL</b>
+          </div>
+        </div>
+
+        <div class="heat-scale" aria-label="Chart completion">
+          <div>
+            <span>CHART TOTAL</span>
+
+            <output id="heat-label"> 100% </output>
+          </div>
+
+          <i>
+            <b id="heat-fill"></b>
+          </i>
+
+          <div>
+            <span>MIN</span>
+
+            <span>MAX</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- CHAPTER 3 -->
+      <!-- ========================= -->
+
+      <section class="chapter chapter--taste" id="insights" data-scene="2">
+        <div class="taste-heading">
+          <h2>
+            READ
+            <br />
+            <em>THE DATA.</em>
+          </h2>
+
+          <p>
+            Select a category to isolate its share and explore the information
+            behind the segment.
+          </p>
+        </div>
+
+        <!-- DATASET SWITCH -->
+
+        <div class="dataset-switch" role="group" aria-label="Choose dataset">
+          <button
+            class="is-active"
+            type="button"
+            data-dataset="current"
+            aria-pressed="true"
+          >
+            <span>01</span>
+
+            CURRENT DATA
+          </button>
+
+          <button type="button" data-dataset="previous" aria-pressed="false">
+            <span>02</span>
+
+            PREVIOUS DATA
+          </button>
+
+          <span class="data-disclosure"> SAMPLE DATASET </span>
+        </div>
+
+        <!-- ANALYSIS PANEL -->
+
+        <aside
+          class="analysis"
+          id="analysis"
+          aria-live="polite"
+          aria-hidden="true"
+        >
+          <div class="analysis__top">
+            <span id="analysis-code"> A1 / SELECTED </span>
+
+            <button
+              id="analysis-close"
+              type="button"
+              aria-label="Return selected segment to chart"
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M6 6l12 12M18 6 6 18"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="analysis__flavor">
+            <i id="analysis-swatch"></i>
+
+            <h3 id="analysis-name">TECHNOLOGY</h3>
+          </div>
+
+          <div class="analysis__share">
+            <strong id="analysis-percent"> 30% </strong>
+
+            <span>
+              OF TOTAL
+              <br />
+              DATA
+            </span>
+          </div>
+
+          <dl>
+            <div>
+              <dt>VALUE</dt>
+              <dd id="analysis-units">30</dd>
+            </div>
+
+            <div>
+              <dt>CHANGE</dt>
+              <dd id="analysis-change">+8.4%</dd>
+            </div>
+
+            <div>
+              <dt>CONTRIBUTION</dt>
+              <dd id="analysis-sell">30%</dd>
+            </div>
+          </dl>
+
+          <p id="analysis-insight">
+            Technology represents the largest portion of the current dataset.
+          </p>
+        </aside>
+
+        <!-- LEGEND -->
+
+        <div
+          class="legend"
+          id="legend"
+          aria-label="Donut chart data legend"
+        ></div>
+      </section>
+    </main>
+
+    <!-- TOOLTIP -->
+
+    <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true">
+      <span id="tooltip-code"> A1 </span>
+
+      <b id="tooltip-name"> TECHNOLOGY </b>
+
+      <em id="tooltip-value"> 30 · 30% </em>
+    </div>
+
+    <!-- DRAG CURSOR -->
+
+    <div class="drag-cursor" id="drag-cursor" aria-hidden="true">
+      <span>DRAG</span>
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer class="stage-footer">
+      <span id="stage-label"> 01 — OVERVIEW </span>
+
+      <div class="scroll-progress" aria-hidden="true">
+        <i id="scroll-progress"></i>
+      </div>
+
+      <span class="creator-credit">
+        <a href="#" aria-label="Donut Chart">
+          <span class="credit-full">
+            © 2026 / DONUT CHART / DATA VISUALIZATION
+          </span>
+
+          <span class="credit-compact"> © DONUT CHART </span>
+        </a>
+      </span>
+    </footer>
+
+    <!-- ACCESSIBLE DATA TABLE -->
+
+    <section class="data-access" aria-labelledby="data-title">
+      <h2 id="data-title">Donut chart data</h2>
+
+      <p>Values shown in the interactive donut chart.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+
+            <th>Current value</th>
+
+            <th>Current share</th>
+
+            <th>Previous value</th>
+
+            <th>Previous share</th>
+          </tr>
+        </thead>
+
+        <tbody id="data-table"></tbody>
+      </table>
+    </section>
+
+    <!-- FALLBACK DATA + LOADER -->
+
+    <noscript>
+      <style>
+        .preheater {
+          display: none;
+        }
+
+        .fallback {
+          display: grid;
+        }
+      </style>
+    </noscript>
+
+    <script>
+      (() => {
+        const categories = [
+          "TECHNOLOGY",
+          "MARKETING",
+          "SALES",
+          "OPERATIONS",
+          "RESEARCH",
+        ];
+
+        const currentData = [30, 25, 20, 15, 10];
+
+        const previousData = [24, 28, 18, 17, 13];
+
+        const calculatePercent = (values, index) => {
+          const total = values.reduce((sum, number) => sum + number, 0);
+
+          return Math.round((values[index] / total) * 100);
+        };
+
+        const table = document.querySelector("#data-table");
+
+        table.innerHTML = categories
+          .map((category, index) => {
+            return `
+              <tr>
+
+                <th scope="row">
+                  ${category}
+                </th>
+
+                <td>
+                  ${currentData[index]}
+                </td>
+
+                <td>
+                  ${calculatePercent(currentData, index)}%
+                </td>
+
+                <td>
+                  ${previousData[index]}
+                </td>
+
+                <td>
+                  ${calculatePercent(previousData, index)}%
+                </td>
+
+              </tr>
+            `;
+          })
+          .join("");
+
+        /* LOADING ANIMATION */
+
+        const started = performance.now();
+
+        const value = document.querySelector("#load-value");
+
+        let progress = 0;
+
+        let finished = false;
+
+        const timer = setInterval(() => {
+          progress = Math.min(93, progress + Math.ceil(Math.random() * 7));
+
+          value.textContent = String(progress).padStart(3, "0");
+        }, 85);
+
+        window.finishPreheating = (failed = false) => {
+          if (finished) return;
+
+          finished = true;
+
+          clearInterval(timer);
+
+          value.textContent = "100";
+
+          if (failed) {
+            document.body.classList.add("scene-fallback");
+          }
+
+          const wait = Math.max(0, 650 - (performance.now() - started));
+
+          setTimeout(
+            () => {
+              document.body.classList.add("is-loaded");
+            },
+
+            wait + 120,
+          );
+        };
+
+        setTimeout(() => {
+          if (!document.body.classList.contains("app-ready")) {
+            window.finishPreheating(true);
+          }
+        }, 5000);
+      })();
+    </script>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
+```
