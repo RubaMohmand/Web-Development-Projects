@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Smooth Product Slider</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-logo-container">
+        <img src="images/shake_logo.png" alt="logo" />
+      </div>
+      <div class="nav-items-container">
+        <ul class="nav-items-container-ul">
+          <li class="nav-items-container-li li-item">
+            <a href="#home">HOME</a>
+          </li>
+          <li class="nav-items-container-li li-item"><a href="#">ABOUT</a></li>
+          <li class="nav-items-container-li li-item">
+            <a href="#">CONTACT</a>
+          </li>
+          <li class="nav-items-container-li li-item">
+            <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+          </li>
+          <li class="nav-items-container-li li-item">
+            <a href="#"><i class="fa-regular fa-heart"></i></a>
+          </li>
+          <li class="nav-items-container-li li-item">
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+          </li>
+          <li class="nav-items-container-li hamburger">
+            <a id="hamburger-icon" onclick="toggleMobileNav()"
+              ><i class="fa-solid fa-bars"></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="mobile-nav">
+      <ul class="mobile-nav-items-container-ul">
+        <li class="mobile-nav-items-container-li"><a href="#home">HOME</a></li>
+        <li class="mobile-nav-items-container-li"><a href="#">ABOUT</a></li>
+        <li class="mobile-nav-items-container-li"><a href="#">CONTACT</a></li>
+      </ul>
+    </div>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-inner">
+          <div class="hero-text">
+            <span class="hero-eyebrow">✦ Premium Milkshakes</span>
+            <h1 class="hero-title">The best<br />milk<em>shake's</em></h1>
+            <p class="hero-sub">
+              Crafted from the finest seasonal fruits. Blended to perfection.
+              Ready to brighten your day.
+            </p>
+            <div class="hero-cta">
+              <a class="btn-primary" href="#"
+                >Shop here <i class="fa-solid fa-arrow-right"></i
+              ></a>
+              <a class="btn-ghost" href="#">Learn more</a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="images/shake_strawberry.png" alt="Strawberry milkshake" />
+          </div>
+        </div>
+      </section>
+
+      <section class="shake-slider">
+        <div class="slider-wrapper">
+          <div class="slider-container">
+            <div class="slider-item shake1">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_1.png" />
+              </div>
+              <div class="shake-title">Coconut</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake2">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_2.png" />
+              </div>
+              <div class="shake-title">Blueberry</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake3">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_3.png" />
+              </div>
+              <div class="shake-title">Banana</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake4">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_4.png" />
+              </div>
+              <div class="shake-title">Grapefruit</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake5">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_5.png" />
+              </div>
+              <div class="shake-title">Strawberry</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <!-- Duplicate items for seamless looping -->
+            <div class="slider-item shake1">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_1.png" />
+              </div>
+              <div class="shake-title">Coconut</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake2">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_2.png" />
+              </div>
+              <div class="shake-title">Blueberry</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake3">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_3.png" />
+              </div>
+              <div class="shake-title">Banana</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake4">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_4.png" />
+              </div>
+              <div class="shake-title">Grapefruit</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+            <div class="slider-item shake5">
+              <div class="slider-item-shake-img">
+                <img src="images/shake_5.png" />
+              </div>
+              <div class="shake-title">Strawberry</div>
+              <div class="slider-item-price">4.99 €</div>
+              <div class="slider-item-button"><button>Shop</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="slider-ctrl-btn">
+          <button id="prevBtn"><i class="fa-solid fa-angle-left"></i></button>
+          <button id="nextBtn"><i class="fa-solid fa-angle-right"></i></button>
+        </div>
+      </section>
+
+      <section class="section-ingredients">
+        <div class="ingredients-headline">Fresh Ingredients</div>
+        <div class="ingredients-subline">
+          Discover the vibrant, fresh fruits that power our delicious shakes.
+          Each ingredient is carefully selected for maximum freshness and
+          flavor.
+        </div>
+        <div class="ingredients-container">
+          <div class="ingredients-item ingredients-1">
+            <div class="ingredients-item-img">
+              <img src="images/ingredients_1.png" />
+            </div>
+            <div class="ingredients-description">
+              <span class="ingredients-desc-title">Coconut</span>
+              <span class="ingredients-desc-txt"
+                >Sourced from tropical paradises, our coconuts are cracked fresh
+                to deliver creamy, nutty goodness in every sip.</span
+              >
+            </div>
+          </div>
+          <div class="ingredients-item ingredients-2">
+            <div class="ingredients-item-img">
+              <img src="images/ingredients_2.png" />
+            </div>
+            <div class="ingredients-description">
+              <span class="ingredients-desc-title">Blueberry</span>
+              <span class="ingredients-desc-txt"
+                >Plump and bursting with antioxidants, these berries are picked
+                at peak ripeness for a tangy twist.</span
+              >
+            </div>
+          </div>
+          <div class="ingredients-item ingredients-3">
+            <div class="ingredients-item-img">
+              <img src="images/ingredients_3.png" />
+            </div>
+            <div class="ingredients-description">
+              <span class="ingredients-desc-title">Banana</span>
+              <span class="ingredients-desc-txt"
+                >Naturally sweet and potassium-rich, our bananas add smooth
+                creaminess to your shake.</span
+              >
+            </div>
+          </div>
+          <div class="ingredients-item ingredients-4">
+            <div class="ingredients-item-img">
+              <img src="images/ingredients_4.png" />
+            </div>
+            <div class="ingredients-description">
+              <span class="ingredients-desc-title">Grapefruit</span>
+              <span class="ingredients-desc-txt"
+                >Zesty and refreshing, these citrus fruits are hand-picked for
+                their bright, invigorating flavor.</span
+              >
+            </div>
+          </div>
+          <div class="ingredients-item ingredients-5">
+            <div class="ingredients-item-img">
+              <img src="images/ingredients_5.png" />
+            </div>
+            <div class="ingredients-description">
+              <span class="ingredients-desc-title">Strawberry</span>
+              <span class="ingredients-desc-txt"
+                >Juicy, sun-ripened strawberries bring a sweet, summery delight
+                to our blends.</span
+              >
+            </div>
+          </div>
+          <div class="ingredients-item ingredients-6">
+            <div class="ingredients-item-img">
+              <img src="images/ingredients_6.png" />
+            </div>
+            <div class="ingredients-description">
+              <span class="ingredients-desc-title">MILK</span>
+              <span class="ingredients-desc-txt"
+                >Fresh from local farms, our whole milk forms the silky, rich
+                base that brings every shake together — pure, natural, and
+                irresistibly smooth.</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="newsletter">
+        <div class="newsletter-container">
+          <h2 class="newsletter-title">Get recipes & discount codes</h2>
+          <p class="newsletter-text">
+            Subscribe to our newsletter and receive regular updates on new shake
+            ideas, exclusive offers, and a 10% welcome discount.
+          </p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" required />
+            <button type="submit">Register now</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="lifestyle">
+        <div class="lifestyle-inner">
+          <div class="lifestyle-media">
+            <figure class="lifestyle-figure">
+              <img
+                src="images/shake_lifestyle.jpg"
+                alt="Woman holding a shake after workout"
+              />
+            </figure>
+            <div class="lifestyle-badge">Post-Workout</div>
+          </div>
+          <div class="lifestyle-content">
+            <h3 class="lifestyle-kicker">Shake as part of your day</h3>
+            <h2 class="lifestyle-title">Refuel. Recover. Repeat.</h2>
+            <p class="lifestyle-copy">
+              Our shakes are designed for your daily routine — whether it's
+              after a hard session, as a quick breakfast, or a healthy on-the-go
+              option. Protein rich, naturally flavored and ready to keep you
+              moving.
+            </p>
+            <ul class="lifestyle-features">
+              <li>
+                <span class="dot"></span><strong>High protein</strong> —
+                supports recovery
+              </li>
+              <li>
+                <span class="dot"></span><strong>All natural</strong> — no
+                artificial colors
+              </li>
+              <li>
+                <span class="dot"></span><strong>Easy to take</strong> — fits
+                your lifestyle
+              </li>
+            </ul>
+            <div class="lifestyle-ctas">
+              <a class="btn btn-primary" href="#shop">Shop shakes</a>
+              <a class="btn btn-outline" href="#recipes">View recipes</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <img src="images/shake_logo.png" alt="Logo" />
+        </div>
+        <div class="footer-links">
+          <a href="#">Imprint</a>
+          <a href="#">Data Policy</a>
+        </div>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-codepen"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
